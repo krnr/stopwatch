@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="dark" />
+<title>Stopwatches</title>
+<style>
+  * { box-sizing: border-box; }
+
+  :root {
+    --bg: #0d0f14;
+    --panel: #161a22;
+    --border: #262c38;
+    --text: #e7ecf3;
+    --muted: #8a94a6;
+    --green: #4ade80;
+    --blue: #60a5fa;
+  }
+
+  html, body { min-height: 100%; }
+
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #1a2130 0%, transparent 60%) no-repeat,
+      var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 28px 18px 80px;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+
+  h1 {
+    font-size: 1.35rem;
+    margin: 0;
+    letter-spacing: -0.01em;
+    font-weight: 650;
+  }
+
+  .add-btn {
+    background: linear-gradient(180deg, #2ea043, #238636);
+    border: 1px solid #2ea043;
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 9px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: filter 0.15s, transform 0.06s;
+  }
+  .add-btn:hover { filter: brightness(1.1); }
+  .add-btn:active { transform: translateY(1px); }
+  .add-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+  }
+
+  /* ---------- card ---------- */
+
+  .watch {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    transition: background 0.18s, border-color 0.18s, box-shadow 0.18s;
+  }
+
+  .watch.running {
+    background: linear-gradient(180deg, #16241d, #141a18);
+    border-color: #2c5c42;
+    box-shadow: 0 0 0 1px #2c5c4255, 0 8px 30px -12px #22c55e66;
+  }
+
+  .time {
+    display: block;
+    width: 100%;
+    background: none;
+    border: 0;
+    color: inherit;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: clamp(1.9rem, 7.5vw, 2.6rem);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    padding: 14px 6px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    transition: background 0.15s, color 0.15s;
+  }
+  .time:hover { background: #ffffff08; }
+  .time:active { background: #ffffff0f; }
+  .time:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .watch.running .time { color: var(--green); }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 2px 2px;
+  }
+
+  .name {
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: left;
+    background: none;
+    border: 0;
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.9rem;
+    padding: 6px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.15s, background 0.15s;
+  }
+  .name:hover { color: var(--text); background: #ffffff0a; }
+  .name:hover::after { content: "✎"; margin-left: 6px; opacity: 0.7; }
+  .name:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+
+  .name-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    font: inherit;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: #0b0e13;
+    border: 1px solid var(--blue);
+    border-radius: 8px;
+    padding: 6px 8px;
+    outline: none;
+  }
+
+  .ctrl {
+    background: #ffffff0a;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.78rem;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s, background 0.15s, border-color 0.15s, transform 0.06s;
+  }
+  .ctrl:hover { color: var(--text); background: #ffffff14; border-color: #39414f; }
+  .ctrl:active { transform: translateY(1px); }
+  .ctrl:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+
+  .ctrl-del { padding: 6px 9px; }
+  .ctrl-del:hover {
+    color: #ff9b9b;
+    border-color: #6b2b2b;
+    background: #ff5c5c1a;
+  }
+
+  .empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 48px 0;
+    font-size: 0.95rem;
+  }
+
+  .hint {
+    margin-top: 28px;
+    color: #6d7788;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    text-align: center;
+  }
+  .hint kbd {
+    background: #ffffff0d;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 1px 5px;
+    font-family: inherit;
+    font-size: 0.78rem;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>⏱ Stopwatches</h1>
+      <button class="add-btn" id="add" type="button">+ New stopwatch</button>
+    </header>
+
+    <main class="grid" id="list"></main>
+    <p class="empty" id="empty" hidden>No stopwatches yet — create one above.</p>
+
+    <p class="hint">
+      Click a time to start it (any other running stopwatch pauses). Click again to pause.<br />
+      Click a name to rename it · <kbd>Enter</kbd> saves · <kbd>Esc</kbd> cancels.<br />
+      Times are cumulative: stop → start keeps counting from where it was.
+    </p>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_KEY = "stopwatches.v1";
+
+  var listEl  = document.getElementById("list");
+  var emptyEl = document.getElementById("empty");
+  var addBtn  = document.getElementById("add");
+
+  var state = { watches: [], counter: 1 };
+  var items = new Map();   // id -> { card, timeBtn }
+  var rafId = null;
+
+  /* ------------------------------------------------------------------ */
+  /* helpers                                                             */
+  /* ------------------------------------------------------------------ */
+
+  function uid() {
+    return Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
+  }
+
+  function currentMs(w) {
+    return w.elapsed + (w.running ? performance.now() - w.startedAt : 0);
+  }
+
+  function format(ms) {
+    if (!isFinite(ms) || ms < 0) ms = 0;
+    var cs       = Math.floor(ms / 10) % 100;
+    var totalSec = Math.floor(ms / 1000);
+    var s        = totalSec % 60;
+    var totalMin = Math.floor(totalSec / 60);
+    var m        = totalMin % 60;
+    var h        = Math.floor(totalMin / 60);
+    var p2 = function (n) { return String(n).padStart(2, "0"); };
+
+    return h > 0
+      ? h + ":" + p2(m) + ":" + p2(s) + "." + p2(cs)
+      : p2(m) + ":" + p2(s) + "." + p2(cs);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* persistence                                                         */
+  /* ------------------------------------------------------------------ */
+
+  function save() {
+    var data = {
+      counter: state.counter,
+      watches: state.watches.map(function (w) {
+        return {
+          id: w.id,
+          name: w.name,
+          elapsed: w.running ? currentMs(w) : w.elapsed   // commit the live time
+        };
+      })
+    };
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) { /* ignore */ }
+  }
+
+  function load() {
+    var data = null;
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) data = JSON.parse(raw);
+    } catch (e) { data = null; }
+
+    if (data && Array.isArray(data.watches) && data.watches.length) {
+      state.counter = Number(data.counter) || data.watches.length + 1;
+      state.watches = data.watches.map(function (w) {
+        return {
+          id: w.id || uid(),
+          name: (typeof w.name === "string" && w.name.trim()) ? w.name : "Stopwatch",
+          elapsed: Number(w.elapsed) > 0 ? Number(w.elapsed) : 0,
+          running: false,      // reloads always come back paused
+          startedAt: 0
+        };
+      });
+    } else {
+      newWatch();
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* model                                                               */
+  /* ------------------------------------------------------------------ */
+
+  function newWatch(name) {
+    var w = {
+      id: uid(),
+      name: name || ("Stopwatch " + state.counter++),
+      elapsed: 0,
+      running: false,
+      startedAt: 0
+    };
+    state.watches.push(w);
+    return w;
+  }
+
+  function pauseWatch(w) {
+    if (!w.running) return;
+    w.elapsed = currentMs(w);
+    w.running = false;
+    w.startedAt = 0;
+  }
+
+  function toggle(w) {
+    if (w.running) {
+      pauseWatch(w);
+    } else {
+      // starting one stops every other running stopwatch
+      state.watches.forEach(function (other) {
+        if (other !== w && other.running) pauseWatch(other);
+      });
+      w.running = true;
+      w.startedAt = performance.now();
+    }
+    save();
+    updateAll();
+    ensureLoop();
+  }
+
+  function resetWatch(w) {
+    w.elapsed = 0;
+    w.running = false;
+    w.startedAt = 0;
+    save();
+    updateAll();
+  }
+
+  function removeWatch(w) {
+    var i = state.watches.indexOf(w);
+    if (i === -1) return;
+    state.watches.splice(i, 1);
+    items.delete(w.id);
+    save();
+    render();
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* rendering                                                           */
+  /* ------------------------------------------------------------------ */
+
+  function makeNameButton(w) {
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "name";
+    btn.textContent = w.name;
+    btn.title = "Click to rename";
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      beginRename(w, btn);
+    });
+    return btn;
+  }
+
+  function beginRename(w, btn) {
+    if (!btn.isConnected) return;
+
+    var input = document.createElement("input");
+    input.type = "text";
+    input.className = "name-input";
+    input.value = w.name;
+    input.maxLength = 60;
+    input.setAttribute("aria-label", "Stopwatch name");
+
+    btn.replaceWith(input);
+    input.focus();
+    input.select();
+
+    var finished = false;
+    function finish(commit) {
+      if (finished) return;
+      finished = true;
+
+      if (commit) {
+        var v = input.value.trim();
+        if (v && v !== w.name) {
+          w.name = v;
+          save();
+        }
+      }
+      if (input.isConnected) input.replaceWith(makeNameButton(w));
+    }
+
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter")  { e.preventDefault(); finish(true); }
+      if (e.key === "Escape") { e.preventDefault(); finish(false); }
+    });
+    input.addEventListener("blur", function () { finish(true); });
+  }
+
+  function buildCard(w) {
+    var card = document.createElement("div");
+    card.className = "watch" + (w.running ? " running" : "");
+
+    // big clickable time
+    var timeBtn = document.createElement("button");
+    timeBtn.type = "button";
+    timeBtn.className = "time";
+    timeBtn.textContent = format(currentMs(w));
+    timeBtn.title = "Click to start / pause";
+    timeBtn.setAttribute("aria-label", "Start or pause " + w.name);
+    timeBtn.addEventListener("click", function () { toggle(w); });
+
+    // name + controls row
+    var meta = document.createElement("div");
+    meta.className = "meta";
+
+    var resetBtn = document.createElement("button");
+    resetBtn.type = "button";
+    resetBtn.className = "ctrl";
+    resetBtn.textContent = "Reset";
+    resetBtn.title = "Reset to zero";
+    resetBtn.addEventListener("click", function () { resetWatch(w); });
+
+    var delBtn = document.createElement("button");
+    delBtn.type = "button";
+    delBtn.className = "ctrl ctrl-del";
+    delBtn.textContent = "✕";
+    delBtn.title = "Delete stopwatch";
+    delBtn.setAttribute("aria-label", "Delete " + w.name);
+    delBtn.addEventListener("click", function () { removeWatch(w); });
+
+    meta.appendChild(makeNameButton(w));
+    meta.appendChild(resetBtn);
+    meta.appendChild(delBtn);
+
+    card.appendChild(timeBtn);
+    card.appendChild(meta);
+
+    items.set(w.id, { card: card, timeBtn: timeBtn });
+    return card;
+  }
+
+  function render() {
+    listEl.textContent = "";
+    items.clear();
+    state.watches.forEach(function (w) {
+      listEl.appendChild(buildCard(w));
+    });
+    emptyEl.hidden = state.watches.length > 0;
+    updateAll();
+  }
+
+  function updateAll() {
+    state.watches.forEach(function (w) {
+      var it = items.get(w.id);
+      if (!it) return;
+      it.timeBtn.textContent = format(currentMs(w));
+      it.card.classList.toggle("running", w.running);
+    });
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* animation loop (runs only while something is ticking)               */
+  /* ------------------------------------------------------------------ */
+
+  function anyRunning() {
+    return state.watches.some(function (w) { return w.running; });
+  }
+
+  function step() {
+    rafId = null;
+    updateAll();
+    if (anyRunning()) rafId = requestAnimationFrame(step);
+  }
+
+  function ensureLoop() {
+    if (rafId !== null || !anyRunning()) return;
+    rafId = requestAnimationFrame(step);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* wiring                                                              */
+  /* ------------------------------------------------------------------ */
+
+  addBtn.addEventListener("click", function () {
+    var w = newWatch();
+    save();
+    render();
+    var it = items.get(w.id);
+    if (it) it.card.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  });
+
+  window.addEventListener("beforeunload", save);
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) save();
+  });
+
+  /* ------------------------------------------------------------------ */
+  /* go                                                                  */
+  /* ------------------------------------------------------------------ */
+
+  load();
+  render();
+  ensureLoop();
+})();
+</script>
+</body>
+</html>
