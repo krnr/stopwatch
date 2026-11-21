@@ -117,6 +117,30 @@
   .time:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
   .watch.running .time { color: var(--green); }
 
+  .time-input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    background: #0b0e13;
+    border: 1px solid var(--blue);
+    color: var(--text);
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: clamp(1.9rem, 7.5vw, 2.6rem);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    text-align: center;
+    padding: 13px 6px 9px;
+    border-radius: 12px;
+    outline: none;
+    user-select: text;
+    -webkit-user-select: text;
+  }
+  .time-input.invalid {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 1px #ff6b6b55;
+  }
+
   .meta {
     display: flex;
     align-items: center;
@@ -218,6 +242,8 @@
     <p class="hint">
       Click a time to start it (any other running stopwatch pauses). Click again to pause.<br />
       Click a name to rename it · <kbd>Enter</kbd> saves · <kbd>Esc</kbd> cancels.<br />
+      Use <strong>Set to…</strong> to jump to any time — e.g. <kbd>90</kbd>, <kbd>1:30.5</kbd>,
+      <kbd>0:05:00</kbd>, <kbd>1:02:03.04</kbd>.<br />
       Times are cumulative: stop → start keeps counting from where it was.
     </p>
   </div>
@@ -263,6 +289,56 @@
       : p2(m) + ":" + p2(s) + "." + p2(cs);
   }
 
+  /**
+   * Parse a human time string into milliseconds.
+   * Accepted: "90", "90.5", "1:30", "1:30.5", "0:05:00", "1:02:03.04".
+   * Returns null when invalid.
+   */
+  function parseTime(raw) {
+    if (raw == null) return null;
+    var s = String(raw).trim().replace(/\s+/g, "");
+    if (!s) return null;
+    if (!/^[0-9:.]+$/.test(s)) return null;
+
+    var parts = s.split(":");
+    if (parts.length < 1 || parts.length > 3) return null;
+
+    // fractional part (only allowed in the last component)
+    var frac = 0;
+    var last = parts[parts.length - 1];
+    var dot = last.indexOf(".");
+    if (dot !== -1) {
+      if (last.indexOf(".", dot + 1) !== -1) return null; // more than one dot
+      var fracStr = last.slice(dot + 1);
+      if (fracStr === "" || !/^\d+$/.test(fracStr)) return null;
+      frac = parseFloat("0." + fracStr);
+      last = last.slice(0, dot);
+      parts[parts.length - 1] = last;
+      if (last === "") return null;
+    }
+
+    var nums = [];
+    for (var i = 0; i < parts.length; i++) {
+      if (!/^\d+$/.test(parts[i])) return null;
+      nums.push(parseInt(parts[i], 10));
+    }
+
+    if (nums.length === 2 && nums[1] >= 60) return null;        // reject "1:75"
+    if (nums.length === 3 && (nums[1] >= 60 || nums[2] >= 60)) return null;
+
+    var totalSec;
+    if (nums.length === 1)      totalSec = nums[0];
+    else if (nums.length === 2) totalSec = nums[0] * 60 + nums[1];
+    else                        totalSec = nums[0] * 3600 + nums[1] * 60 + nums[2];
+
+    totalSec += frac;
+    var ms = Math.round(totalSec * 1000);
+    if (!isFinite(ms) || ms < 0) return null;
+
+    // snap to the nearest centisecond so the display matches exactly
+    return Math.round(ms / 10) * 10;
+  }
+
   /* ------------------------------------------------------------------ */
   /* persistence                                                         */
   /* ------------------------------------------------------------------ */
@@ -274,7 +350,7 @@
         return {
           id: w.id,
           name: w.name,
-          elapsed: w.running ? currentMs(w) : w.elapsed   // commit the live time
+          elapsed: w.running ? currentMs(w) : w.elapsed
         };
       })
     };
@@ -413,6 +489,69 @@
     input.addEventListener("blur", function () { finish(true); });
   }
 
+  function beginSetTime(w, timeBtn) {
+    if (!timeBtn.isConnected) return;
+
+    var input = document.createElement("input");
+    input.type = "text";
+    input.className = "time-input";
+    input.value = format(currentMs(w));
+    input.setAttribute("aria-label", "Set time for " + w.name);
+    input.setAttribute("autocomplete", "off");
+    input.setAttribute("spellcheck", "false");
+    input.setAttribute("inputmode", "decimal");
+
+    timeBtn.replaceWith(input);
+    input.focus();
+    input.select();
+
+    var finished = false;
+
+    function finish(commit, ms) {
+      if (finished) return;
+      finished = true;
+
+      if (commit && ms !== null && ms !== undefined) {
+        w.elapsed = ms;
+        if (w.running) w.startedAt = performance.now(); // keep ticking from the new base
+        save();
+      }
+
+      if (input.isConnected) input.replaceWith(timeBtn);
+      updateAll();
+    }
+
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        var ms = parseTime(input.value);
+        if (ms === null) {
+          input.classList.add("invalid");
+          input.select();
+          return;
+        }
+        finish(true, ms);
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        finish(false);
+      }
+    });
+
+    input.addEventListener("input", function () {
+      input.classList.remove("invalid");
+    });
+
+    input.addEventListener("blur", function () {
+      if (finished) return;
+      var ms = parseTime(input.value);
+      if (ms === null) {
+        finish(false);      // invalid → revert silently
+      } else {
+        finish(true, ms);
+      }
+    });
+  }
+
   function buildCard(w) {
     var card = document.createElement("div");
     card.className = "watch" + (w.running ? " running" : "");
@@ -430,6 +569,17 @@
     var meta = document.createElement("div");
     meta.className = "meta";
 
+    var setBtn = document.createElement("button");
+    setBtn.type = "button";
+    setBtn.className = "ctrl";
+    setBtn.textContent = "Set to…";
+    setBtn.title = "Set to a specific time";
+    setBtn.setAttribute("aria-label", "Set time for " + w.name);
+    setBtn.addEventListener("click", function () {
+      var it = items.get(w.id);
+      if (it) beginSetTime(w, it.timeBtn);
+    });
+
     var resetBtn = document.createElement("button");
     resetBtn.type = "button";
     resetBtn.className = "ctrl";
@@ -446,6 +596,7 @@
     delBtn.addEventListener("click", function () { removeWatch(w); });
 
     meta.appendChild(makeNameButton(w));
+    meta.appendChild(setBtn);
     meta.appendChild(resetBtn);
     meta.appendChild(delBtn);
 
@@ -522,3 +673,4 @@
 </script>
 </body>
 </html>
+
