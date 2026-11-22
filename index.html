@@ -30,47 +30,14 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  .wrap {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 28px 18px 80px;
-  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 28px 18px 80px; }
 
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 22px;
-    flex-wrap: wrap;
-  }
-
-  h1 {
-    font-size: 1.35rem;
-    margin: 0;
-    letter-spacing: -0.01em;
-    font-weight: 650;
-  }
-
-  .add-btn {
-    background: linear-gradient(180deg, #2ea043, #238636);
-    border: 1px solid #2ea043;
-    color: #fff;
-    font: inherit;
-    font-weight: 600;
-    font-size: 0.9rem;
-    padding: 9px 14px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: filter 0.15s, transform 0.06s;
-  }
-  .add-btn:hover { filter: brightness(1.1); }
-  .add-btn:active { transform: translateY(1px); }
-  .add-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  header { margin-bottom: 22px; }
+  h1 { font-size: 1.35rem; margin: 0; letter-spacing: -0.01em; font-weight: 650; }
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
     gap: 14px;
   }
 
@@ -81,9 +48,7 @@
     border: 1px solid var(--border);
     border-radius: 16px;
     padding: 10px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+    display: flex; flex-direction: column; gap: 2px;
     transition: background 0.18s, border-color 0.18s, box-shadow 0.18s;
   }
 
@@ -94,22 +59,12 @@
   }
 
   .time {
-    display: block;
-    width: 100%;
-    background: none;
-    border: 0;
-    color: inherit;
+    display: block; width: 100%; background: none; border: 0; color: inherit;
     font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
     font-size: clamp(1.9rem, 7.5vw, 2.6rem);
-    font-variant-numeric: tabular-nums;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    padding: 14px 6px 10px;
-    border-radius: 12px;
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
+    font-variant-numeric: tabular-nums; font-weight: 500; letter-spacing: 0.01em;
+    padding: 14px 6px 10px; border-radius: 12px; cursor: pointer;
+    user-select: none; -webkit-user-select: none; touch-action: manipulation;
     transition: background 0.15s, color 0.15s;
   }
   .time:hover { background: #ffffff08; }
@@ -118,114 +73,147 @@
   .watch.running .time { color: var(--green); }
 
   .time-input {
-    display: block;
-    width: 100%;
-    min-width: 0;
-    background: #0b0e13;
-    border: 1px solid var(--blue);
-    color: var(--text);
+    display: block; width: 100%; min-width: 0; background: #0b0e13;
+    border: 1px solid var(--blue); color: var(--text);
     font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
     font-size: clamp(1.9rem, 7.5vw, 2.6rem);
-    font-variant-numeric: tabular-nums;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    text-align: center;
-    padding: 13px 6px 9px;
-    border-radius: 12px;
-    outline: none;
-    user-select: text;
-    -webkit-user-select: text;
+    font-variant-numeric: tabular-nums; font-weight: 500; letter-spacing: 0.01em;
+    text-align: center; padding: 13px 6px 9px; border-radius: 12px; outline: none;
+    user-select: text; -webkit-user-select: text;
   }
-  .time-input.invalid {
-    border-color: #ff6b6b;
-    box-shadow: 0 0 0 1px #ff6b6b55;
-  }
+  .time-input.invalid { border-color: #ff6b6b; box-shadow: 0 0 0 1px #ff6b6b55; }
 
-  .meta {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 0 2px 2px;
-  }
+  .meta { display: flex; align-items: center; gap: 6px; padding: 0 2px 2px; }
 
-  .name {
-    flex: 1 1 auto;
-    min-width: 0;
-    text-align: left;
-    background: none;
-    border: 0;
-    color: var(--muted);
-    font: inherit;
-    font-size: 0.9rem;
-    padding: 6px 8px;
-    border-radius: 8px;
-    cursor: pointer;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transition: color 0.15s, background 0.15s;
-  }
-  .name:hover { color: var(--text); background: #ffffff0a; }
-  .name:hover::after { content: "✎"; margin-left: 6px; opacity: 0.7; }
-  .name:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
-
-  .name-input {
-    flex: 1 1 auto;
-    min-width: 0;
-    font: inherit;
-    font-size: 0.9rem;
-    color: var(--text);
-    background: #0b0e13;
-    border: 1px solid var(--blue);
-    border-radius: 8px;
-    padding: 6px 8px;
-    outline: none;
+  .name-static {
+    flex: 1 1 auto; min-width: 0; color: var(--muted); font-size: 0.9rem;
+    padding: 6px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
 
   .ctrl {
-    background: #ffffff0a;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    font: inherit;
-    font-size: 0.78rem;
-    padding: 6px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    white-space: nowrap;
+    background: #ffffff0a; border: 1px solid var(--border); color: var(--muted);
+    font: inherit; font-size: 0.76rem; padding: 6px 9px; border-radius: 8px;
+    cursor: pointer; white-space: nowrap;
     transition: color 0.15s, background 0.15s, border-color 0.15s, transform 0.06s;
   }
   .ctrl:hover { color: var(--text); background: #ffffff14; border-color: #39414f; }
   .ctrl:active { transform: translateY(1px); }
   .ctrl:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
 
-  .ctrl-del { padding: 6px 9px; }
-  .ctrl-del:hover {
-    color: #ff9b9b;
-    border-color: #6b2b2b;
-    background: #ff5c5c1a;
+  /* ---------- summary ---------- */
+
+  .summary { margin-top: 34px; border-top: 1px solid var(--border); padding-top: 18px; }
+
+  .sum-head {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  }
+  .sum-head h2 {
+    font-size: 0.8rem; margin: 0; color: var(--muted); font-weight: 650;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .sum-total { font-size: 0.9rem; color: var(--muted); }
+  .sum-total b {
+    color: var(--text); font-weight: 500;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
   }
 
-  .empty {
-    text-align: center;
-    color: var(--muted);
-    padding: 48px 0;
-    font-size: 0.95rem;
+  .sum-hint { color: var(--muted); font-size: 0.85rem; line-height: 1.55; margin: 16px 0 0; }
+
+  /* phases row */
+
+  .phases {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px;
   }
+  .phases-label {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--muted); margin-right: 2px;
+  }
+  .phases-spacer { flex: 1; }
+
+  .chip {
+    display: inline-flex; align-items: center; gap: 2px; background: #ffffff0d;
+    border: 1px solid var(--border); border-radius: 999px;
+    padding: 1px 4px 1px 8px; font-size: 0.78rem;
+  }
+  .chip .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+
+  .chip-name {
+    background: none; border: 0; color: var(--text); font: inherit; font-size: 0.78rem;
+    cursor: pointer; padding: 3px 5px; border-radius: 6px;
+  }
+  .chip-name:hover { background: #ffffff14; }
+
+  .chip-x {
+    background: none; border: 0; color: var(--muted); cursor: pointer;
+    font-size: 0.95rem; line-height: 1; padding: 2px 4px; border-radius: 6px;
+  }
+  .chip-x:hover { color: #ff9b9b; background: #ff5c5c1a; }
+
+  .chip-add {
+    background: none; border: 1px dashed #39414f; color: var(--muted);
+    border-radius: 999px; font: inherit; font-size: 0.72rem;
+    padding: 4px 10px; cursor: pointer;
+  }
+  .chip-add:hover { color: var(--text); border-color: #4a5464; }
+
+  .inline-input {
+    font: inherit; color: var(--text); background: #0b0e13;
+    border: 1px solid var(--blue); border-radius: 6px;
+    padding: 2px 6px; outline: none; min-width: 40px; max-width: 180px;
+  }
+  .chip .inline-input { font-size: 0.78rem; padding: 2px 5px; }
+
+  /* team blocks */
+
+  .team { margin-top: 20px; }
+
+  .team-head { display: flex; align-items: baseline; gap: 6px; }
+
+  .team-name {
+    background: none; border: 0; color: var(--text); font: inherit;
+    font-size: 0.98rem; font-weight: 600; padding: 3px 6px; border-radius: 6px;
+    cursor: pointer;
+  }
+  .team-name:hover { background: #ffffff0f; }
+  .team-name:hover::after { content: "✎"; margin-left: 6px; opacity: 0.6; font-weight: 400; }
+
+  .team-spacer { flex: 1; }
+  .team-total {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums; font-size: 0.95rem;
+  }
+  .team-pct { color: var(--muted); font-size: 0.82rem; min-width: 46px; text-align: right; }
+
+  .bar {
+    display: flex; height: 10px; border-radius: 6px; background: #ffffff0d;
+    overflow: hidden; margin-top: 6px;
+  }
+  .bar i { display: block; height: 100%; width: 0; }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 8px;
+    font-size: 0.8rem; color: var(--muted);
+  }
+  .lg { display: inline-flex; align-items: center; gap: 6px; }
+  .lg .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .lg b {
+    color: var(--text); font-weight: 500;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .lg .pct { color: var(--muted); }
+
+  .team-diff-all { margin-top: 18px; font-size: 0.9rem; color: var(--green); }
+
+  .empty { text-align: center; color: var(--muted); padding: 48px 0; font-size: 0.95rem; }
 
   .hint {
-    margin-top: 28px;
-    color: #6d7788;
-    font-size: 0.82rem;
-    line-height: 1.6;
-    text-align: center;
+    margin-top: 28px; color: #6d7788; font-size: 0.82rem; line-height: 1.6; text-align: center;
   }
   .hint kbd {
-    background: #ffffff0d;
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    padding: 1px 5px;
-    font-family: inherit;
-    font-size: 0.78rem;
+    background: #ffffff0d; border: 1px solid var(--border); border-radius: 5px;
+    padding: 1px 5px; font-family: inherit; font-size: 0.78rem;
   }
 </style>
 </head>
@@ -233,17 +221,26 @@
   <div class="wrap">
     <header>
       <h1>⏱ Stopwatches</h1>
-      <button class="add-btn" id="add" type="button">+ New stopwatch</button>
     </header>
 
     <main class="grid" id="list"></main>
-    <p class="empty" id="empty" hidden>No stopwatches yet — create one above.</p>
+    <p class="empty" id="empty" hidden>No stopwatches — add a team or a phase below.</p>
+
+    <section class="summary">
+      <div class="sum-head">
+        <h2>Summary</h2>
+        <div class="sum-total">Total <b id="sumTotal">00:00.00</b></div>
+      </div>
+      <div class="phases" id="phasesRow"></div>
+      <div class="sum-body" id="sumBody"></div>
+    </section>
 
     <p class="hint">
       Click a time to start it (any other running stopwatch pauses). Click again to pause.<br />
-      Click a name to rename it · <kbd>Enter</kbd> saves · <kbd>Esc</kbd> cancels.<br />
       Use <strong>Set to…</strong> to jump to any time — e.g. <kbd>90</kbd>, <kbd>1:30.5</kbd>,
       <kbd>0:05:00</kbd>, <kbd>1:02:03.04</kbd>.<br />
+      In the summary: click a team or phase name to rename it · <kbd>×</kbd> removes it ·
+      <strong>+ team</strong> / <strong>+ phase</strong> extend the game set.<br />
       Times are cumulative: stop → start keeps counting from where it was.
     </p>
   </div>
@@ -252,14 +249,18 @@
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "stopwatches.v1";
+  var STORAGE_KEY = "stopwatches.v2";
+  var PALETTE = ["#60a5fa", "#4ade80", "#fbbf24", "#f472b6", "#a78bfa", "#22d3ee", "#fb923c", "#34d399"];
 
-  var listEl  = document.getElementById("list");
-  var emptyEl = document.getElementById("empty");
-  var addBtn  = document.getElementById("add");
+  var listEl     = document.getElementById("list");
+  var emptyEl    = document.getElementById("empty");
+  var sumBody    = document.getElementById("sumBody");
+  var sumTotalEl = document.getElementById("sumTotal");
+  var phasesRow  = document.getElementById("phasesRow");
 
-  var state = { watches: [], counter: 1 };
-  var items = new Map();   // id -> { card, timeBtn }
+  var state = { teams: [], phases: [], watches: [] };
+  var items = new Map();       // watchId -> { card, timeBtn }
+  var sumUpdaters = [];
   var rafId = null;
 
   /* ------------------------------------------------------------------ */
@@ -289,11 +290,7 @@
       : p2(m) + ":" + p2(s) + "." + p2(cs);
   }
 
-  /**
-   * Parse a human time string into milliseconds.
-   * Accepted: "90", "90.5", "1:30", "1:30.5", "0:05:00", "1:02:03.04".
-   * Returns null when invalid.
-   */
+  /** "90" | "90.5" | "1:30" | "1:30.5" | "0:05:00" | "1:02:03.04" → ms | null */
   function parseTime(raw) {
     if (raw == null) return null;
     var s = String(raw).trim().replace(/\s+/g, "");
@@ -303,12 +300,11 @@
     var parts = s.split(":");
     if (parts.length < 1 || parts.length > 3) return null;
 
-    // fractional part (only allowed in the last component)
     var frac = 0;
     var last = parts[parts.length - 1];
     var dot = last.indexOf(".");
     if (dot !== -1) {
-      if (last.indexOf(".", dot + 1) !== -1) return null; // more than one dot
+      if (last.indexOf(".", dot + 1) !== -1) return null;
       var fracStr = last.slice(dot + 1);
       if (fracStr === "" || !/^\d+$/.test(fracStr)) return null;
       frac = parseFloat("0." + fracStr);
@@ -323,7 +319,7 @@
       nums.push(parseInt(parts[i], 10));
     }
 
-    if (nums.length === 2 && nums[1] >= 60) return null;        // reject "1:75"
+    if (nums.length === 2 && nums[1] >= 60) return null;
     if (nums.length === 3 && (nums[1] >= 60 || nums[2] >= 60)) return null;
 
     var totalSec;
@@ -335,8 +331,47 @@
     var ms = Math.round(totalSec * 1000);
     if (!isFinite(ms) || ms < 0) return null;
 
-    // snap to the nearest centisecond so the display matches exactly
     return Math.round(ms / 10) * 10;
+  }
+
+  function grandTotalMs() {
+    var t = 0;
+    for (var i = 0; i < state.watches.length; i++) t += currentMs(state.watches[i]);
+    return t;
+  }
+
+  function teamTotalMs(teamId) {
+    var t = 0;
+    for (var i = 0; i < state.watches.length; i++) {
+      if (state.watches[i].teamId === teamId) t += currentMs(state.watches[i]);
+    }
+    return t;
+  }
+
+  function findWatch(teamId, phaseId) {
+    for (var i = 0; i < state.watches.length; i++) {
+      var w = state.watches[i];
+      if (w.teamId === teamId && w.phaseId === phaseId) return w;
+    }
+    return null;
+  }
+
+  function watchMs(teamId, phaseId) {
+    var w = findWatch(teamId, phaseId);
+    return w ? currentMs(w) : 0;
+  }
+
+  function uniqueName(base, used) {
+    if (!used.has(base)) return base;
+    var i = 2;
+    while (used.has(base + " " + i)) i++;
+    return base + " " + i;
+  }
+
+  function nextColor() {
+    var used = new Set(state.phases.map(function (p) { return p.color; }));
+    for (var i = 0; i < PALETTE.length; i++) if (!used.has(PALETTE[i])) return PALETTE[i];
+    return PALETTE[state.phases.length % PALETTE.length];
   }
 
   /* ------------------------------------------------------------------ */
@@ -345,16 +380,51 @@
 
   function save() {
     var data = {
-      counter: state.counter,
+      teams: state.teams.map(function (t) { return { id: t.id, name: t.name }; }),
+      phases: state.phases.map(function (p) { return { id: p.id, name: p.name, color: p.color }; }),
       watches: state.watches.map(function (w) {
         return {
           id: w.id,
-          name: w.name,
+          teamId: w.teamId,
+          phaseId: w.phaseId,
           elapsed: w.running ? currentMs(w) : w.elapsed
         };
       })
     };
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) { /* ignore */ }
+  }
+
+  function ensureWatches() {
+    var tids = new Set(state.teams.map(function (t) { return t.id; }));
+    var pids = new Set(state.phases.map(function (p) { return p.id; }));
+
+    state.watches = state.watches.filter(function (w) {
+      return tids.has(w.teamId) && pids.has(w.phaseId);
+    });
+
+    state.teams.forEach(function (t) {
+      state.phases.forEach(function (p) {
+        if (!findWatch(t.id, p.id)) {
+          state.watches.push({
+            id: uid(), teamId: t.id, phaseId: p.id,
+            elapsed: 0, running: false, startedAt: 0
+          });
+        }
+      });
+    });
+  }
+
+  function makeDefault() {
+    state.teams = [
+      { id: uid(), name: "A" },
+      { id: uid(), name: "B" }
+    ];
+    state.phases = [
+      { id: uid(), name: "atk", color: PALETTE[0] },
+      { id: uid(), name: "def", color: PALETTE[1] }
+    ];
+    state.watches = [];
+    ensureWatches();
   }
 
   function load() {
@@ -364,37 +434,44 @@
       if (raw) data = JSON.parse(raw);
     } catch (e) { data = null; }
 
-    if (data && Array.isArray(data.watches) && data.watches.length) {
-      state.counter = Number(data.counter) || data.watches.length + 1;
-      state.watches = data.watches.map(function (w) {
+    if (data && Array.isArray(data.teams) && Array.isArray(data.phases) &&
+        data.teams.length && data.phases.length) {
+
+      state.teams = data.teams.map(function (t, i) {
         return {
-          id: w.id || uid(),
-          name: (typeof w.name === "string" && w.name.trim()) ? w.name : "Stopwatch",
-          elapsed: Number(w.elapsed) > 0 ? Number(w.elapsed) : 0,
-          running: false,      // reloads always come back paused
-          startedAt: 0
+          id: t.id || uid(),
+          name: (typeof t.name === "string" && t.name.trim()) ? t.name.trim() : "Team " + (i + 1)
         };
       });
+
+      state.phases = data.phases.map(function (p, i) {
+        return {
+          id: p.id || uid(),
+          name: (typeof p.name === "string" && p.name.trim()) ? p.name.trim() : "phase " + (i + 1),
+          color: (typeof p.color === "string" && p.color) ? p.color : PALETTE[i % PALETTE.length]
+        };
+      });
+
+      state.watches = Array.isArray(data.watches) ? data.watches.map(function (w) {
+        return {
+          id: w.id || uid(),
+          teamId: w.teamId,
+          phaseId: w.phaseId,
+          elapsed: Number(w.elapsed) > 0 ? Number(w.elapsed) : 0,
+          running: false,
+          startedAt: 0
+        };
+      }) : [];
+
+      ensureWatches();
     } else {
-      newWatch();
+      makeDefault();
     }
   }
 
   /* ------------------------------------------------------------------ */
-  /* model                                                               */
+  /* model ops                                                           */
   /* ------------------------------------------------------------------ */
-
-  function newWatch(name) {
-    var w = {
-      id: uid(),
-      name: name || ("Stopwatch " + state.counter++),
-      elapsed: 0,
-      running: false,
-      startedAt: 0
-    };
-    state.watches.push(w);
-    return w;
-  }
 
   function pauseWatch(w) {
     if (!w.running) return;
@@ -407,7 +484,6 @@
     if (w.running) {
       pauseWatch(w);
     } else {
-      // starting one stops every other running stopwatch
       state.watches.forEach(function (other) {
         if (other !== w && other.running) pauseWatch(other);
       });
@@ -427,67 +503,113 @@
     updateAll();
   }
 
-  function removeWatch(w) {
-    var i = state.watches.indexOf(w);
-    if (i === -1) return;
-    state.watches.splice(i, 1);
-    items.delete(w.id);
+  function renameTeam(team, name) {
+    if (!name || name === team.name) return;
+    team.name = name;
+    refresh();
+  }
+
+  function renamePhase(phase, name) {
+    if (!name || name === phase.name) return;
+    phase.name = name;
+    refresh();
+  }
+
+  function addTeam() {
+    var used = new Set(state.teams.map(function (t) { return t.name; }));
+    var name = null;
+    for (var i = 0; i < 26; i++) {
+      var c = String.fromCharCode(65 + i);
+      if (!used.has(c)) { name = c; break; }
+    }
+    if (!name) name = uniqueName("Team", used);
+
+    state.teams.push({ id: uid(), name: name });
+    ensureWatches();
+    refresh();
+  }
+
+  function addPhase() {
+    var used = new Set(state.phases.map(function (p) { return p.name; }));
+    var name = uniqueName("phase " + (state.phases.length + 1), used);
+
+    state.phases.push({ id: uid(), name: name, color: nextColor() });
+    ensureWatches();
+    refresh();
+  }
+
+  function removeTeam(team) {
+    var total = teamTotalMs(team.id);
+    if (total > 0 && !confirm('Remove team "' + team.name + '" and its stopwatches (' + format(total) + ')?')) return;
+
+    state.teams = state.teams.filter(function (t) { return t !== team; });
+    state.watches = state.watches.filter(function (w) { return w.teamId !== team.id; });
+    refresh();
+  }
+
+  function removePhase(phase) {
+    var total = 0;
+    state.watches.forEach(function (w) { if (w.phaseId === phase.id) total += currentMs(w); });
+    if (total > 0 && !confirm('Remove phase "' + phase.name + '" from every team (' + format(total) + ')?')) return;
+
+    state.phases = state.phases.filter(function (p) { return p !== phase; });
+    state.watches = state.watches.filter(function (w) { return w.phaseId !== phase.id; });
+    refresh();
+  }
+
+  function refresh() {
     save();
+    sumUpdaters = [];
     render();
+    buildSummary();
   }
 
   /* ------------------------------------------------------------------ */
-  /* rendering                                                           */
+  /* inline editing                                                      */
   /* ------------------------------------------------------------------ */
 
-  function makeNameButton(w) {
-    var btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "name";
-    btn.textContent = w.name;
-    btn.title = "Click to rename";
-    btn.addEventListener("click", function (e) {
-      e.stopPropagation();
-      beginRename(w, btn);
-    });
-    return btn;
-  }
-
-  function beginRename(w, btn) {
+  function beginInlineEdit(btn, value, maxLen, onCommit) {
     if (!btn.isConnected) return;
 
     var input = document.createElement("input");
     input.type = "text";
-    input.className = "name-input";
-    input.value = w.name;
-    input.maxLength = 60;
-    input.setAttribute("aria-label", "Stopwatch name");
+    input.className = "inline-input";
+    input.value = value;
+    input.maxLength = maxLen;
+    input.setAttribute("aria-label", "Edit name");
+    input.setAttribute("autocomplete", "off");
+    input.setAttribute("spellcheck", "false");
+
+    var w = btn.offsetWidth;
+    input.style.width = Math.max(56, Math.min(180, w + 24)) + "px";
 
     btn.replaceWith(input);
     input.focus();
     input.select();
 
-    var finished = false;
+    var done = false;
     function finish(commit) {
-      if (finished) return;
-      finished = true;
+      if (done) return;
+      done = true;
 
-      if (commit) {
-        var v = input.value.trim();
-        if (v && v !== w.name) {
-          w.name = v;
-          save();
-        }
+      var v = input.value.trim();
+      if (commit && v && v !== value) {
+        onCommit(v);                       // rebuilds the surrounding DOM
+      } else if (input.isConnected) {
+        input.replaceWith(btn);
       }
-      if (input.isConnected) input.replaceWith(makeNameButton(w));
     }
 
     input.addEventListener("keydown", function (e) {
-      if (e.key === "Enter")  { e.preventDefault(); finish(true); }
-      if (e.key === "Escape") { e.preventDefault(); finish(false); }
+      if (e.key === "Enter") { e.preventDefault(); finish(true); }
+      else if (e.key === "Escape") { e.preventDefault(); finish(false); }
     });
     input.addEventListener("blur", function () { finish(true); });
   }
+
+  /* ------------------------------------------------------------------ */
+  /* card rendering                                                      */
+  /* ------------------------------------------------------------------ */
 
   function beginSetTime(w, timeBtn) {
     if (!timeBtn.isConnected) return;
@@ -496,7 +618,7 @@
     input.type = "text";
     input.className = "time-input";
     input.value = format(currentMs(w));
-    input.setAttribute("aria-label", "Set time for " + w.name);
+    input.setAttribute("aria-label", "Set time");
     input.setAttribute("autocomplete", "off");
     input.setAttribute("spellcheck", "false");
     input.setAttribute("inputmode", "decimal");
@@ -513,7 +635,7 @@
 
       if (commit && ms !== null && ms !== undefined) {
         w.elapsed = ms;
-        if (w.running) w.startedAt = performance.now(); // keep ticking from the new base
+        if (w.running) w.startedAt = performance.now();
         save();
       }
 
@@ -537,44 +659,42 @@
       }
     });
 
-    input.addEventListener("input", function () {
-      input.classList.remove("invalid");
-    });
+    input.addEventListener("input", function () { input.classList.remove("invalid"); });
 
     input.addEventListener("blur", function () {
       if (finished) return;
       var ms = parseTime(input.value);
-      if (ms === null) {
-        finish(false);      // invalid → revert silently
-      } else {
-        finish(true, ms);
-      }
+      if (ms === null) finish(false);
+      else finish(true, ms);
     });
   }
 
-  function buildCard(w) {
+  function buildCard(team, phase, w) {
     var card = document.createElement("div");
     card.className = "watch" + (w.running ? " running" : "");
 
-    // big clickable time
     var timeBtn = document.createElement("button");
     timeBtn.type = "button";
     timeBtn.className = "time";
     timeBtn.textContent = format(currentMs(w));
     timeBtn.title = "Click to start / pause";
-    timeBtn.setAttribute("aria-label", "Start or pause " + w.name);
+    timeBtn.setAttribute("aria-label", "Start or pause " + team.name + ": " + phase.name);
     timeBtn.addEventListener("click", function () { toggle(w); });
 
-    // name + controls row
     var meta = document.createElement("div");
     meta.className = "meta";
+
+    var nameEl = document.createElement("span");
+    nameEl.className = "name-static";
+    nameEl.textContent = team.name + ": " + phase.name;
+    nameEl.title = team.name + ": " + phase.name;
 
     var setBtn = document.createElement("button");
     setBtn.type = "button";
     setBtn.className = "ctrl";
     setBtn.textContent = "Set to…";
     setBtn.title = "Set to a specific time";
-    setBtn.setAttribute("aria-label", "Set time for " + w.name);
+    setBtn.setAttribute("aria-label", "Set time for " + team.name + ": " + phase.name);
     setBtn.addEventListener("click", function () {
       var it = items.get(w.id);
       if (it) beginSetTime(w, it.timeBtn);
@@ -587,18 +707,9 @@
     resetBtn.title = "Reset to zero";
     resetBtn.addEventListener("click", function () { resetWatch(w); });
 
-    var delBtn = document.createElement("button");
-    delBtn.type = "button";
-    delBtn.className = "ctrl ctrl-del";
-    delBtn.textContent = "✕";
-    delBtn.title = "Delete stopwatch";
-    delBtn.setAttribute("aria-label", "Delete " + w.name);
-    delBtn.addEventListener("click", function () { removeWatch(w); });
-
-    meta.appendChild(makeNameButton(w));
+    meta.appendChild(nameEl);
     meta.appendChild(setBtn);
     meta.appendChild(resetBtn);
-    meta.appendChild(delBtn);
 
     card.appendChild(timeBtn);
     card.appendChild(meta);
@@ -610,9 +721,14 @@
   function render() {
     listEl.textContent = "";
     items.clear();
-    state.watches.forEach(function (w) {
-      listEl.appendChild(buildCard(w));
+
+    state.teams.forEach(function (team) {
+      state.phases.forEach(function (phase) {
+        var w = findWatch(team.id, phase.id);
+        if (w) listEl.appendChild(buildCard(team, phase, w));
+      });
     });
+
     emptyEl.hidden = state.watches.length > 0;
     updateAll();
   }
@@ -624,10 +740,225 @@
       it.timeBtn.textContent = format(currentMs(w));
       it.card.classList.toggle("running", w.running);
     });
+
+    for (var i = 0; i < sumUpdaters.length; i++) sumUpdaters[i]();
   }
 
   /* ------------------------------------------------------------------ */
-  /* animation loop (runs only while something is ticking)               */
+  /* summary                                                             */
+  /* ------------------------------------------------------------------ */
+
+  function buildPhasesRow() {
+    phasesRow.textContent = "";
+
+    var label = document.createElement("span");
+    label.className = "phases-label";
+    label.textContent = "phases";
+    phasesRow.appendChild(label);
+
+    state.phases.forEach(function (phase) {
+      var chip = document.createElement("span");
+      chip.className = "chip";
+
+      var dot = document.createElement("i");
+      dot.className = "dot";
+      dot.style.background = phase.color;
+
+      var nameBtn = document.createElement("button");
+      nameBtn.type = "button";
+      nameBtn.className = "chip-name";
+      nameBtn.textContent = phase.name;
+      nameBtn.title = "Click to rename phase";
+      nameBtn.addEventListener("click", function () {
+        beginInlineEdit(nameBtn, phase.name, 24, function (v) { renamePhase(phase, v); });
+      });
+
+      var x = document.createElement("button");
+      x.type = "button";
+      x.className = "chip-x";
+      x.textContent = "×";
+      x.title = "Remove phase";
+      x.setAttribute("aria-label", "Remove phase " + phase.name);
+      x.addEventListener("click", function () { removePhase(phase); });
+
+      chip.appendChild(dot);
+      chip.appendChild(nameBtn);
+      chip.appendChild(x);
+      phasesRow.appendChild(chip);
+    });
+
+    var addP = document.createElement("button");
+    addP.type = "button";
+    addP.className = "chip-add";
+    addP.textContent = "+ phase";
+    addP.title = "Add a phase for every team";
+    addP.addEventListener("click", addPhase);
+    phasesRow.appendChild(addP);
+
+    var spacer = document.createElement("span");
+    spacer.className = "phases-spacer";
+    phasesRow.appendChild(spacer);
+
+    var addT = document.createElement("button");
+    addT.type = "button";
+    addT.className = "chip-add";
+    addT.textContent = "+ team";
+    addT.title = "Add a team with all phases";
+    addT.addEventListener("click", addTeam);
+    phasesRow.appendChild(addT);
+  }
+
+  function buildSummary() {
+    sumUpdaters = [];
+    buildPhasesRow();
+    sumBody.textContent = "";
+
+    sumUpdaters.push(function () {
+      sumTotalEl.textContent = format(grandTotalMs());
+    });
+
+    if (state.teams.length === 0 || state.phases.length === 0) {
+      var hint = document.createElement("p");
+      hint.className = "sum-hint";
+      hint.textContent = "Add a team and a phase to build your game set.";
+      sumBody.appendChild(hint);
+      return;
+    }
+
+    state.teams.forEach(function (team) {
+      var block = document.createElement("div");
+      block.className = "team";
+
+      /* header: team name (editable) + remove + total + % */
+
+      var head = document.createElement("div");
+      head.className = "team-head";
+
+      var nameBtn = document.createElement("button");
+      nameBtn.type = "button";
+      nameBtn.className = "team-name";
+      nameBtn.textContent = team.name;
+      nameBtn.title = "Click to rename team";
+      nameBtn.addEventListener("click", function () {
+        beginInlineEdit(nameBtn, team.name, 40, function (v) { renameTeam(team, v); });
+      });
+
+      var xBtn = document.createElement("button");
+      xBtn.type = "button";
+      xBtn.className = "chip-x";
+      xBtn.textContent = "×";
+      xBtn.title = "Remove team";
+      xBtn.setAttribute("aria-label", "Remove team " + team.name);
+      xBtn.addEventListener("click", function () { removeTeam(team); });
+
+      var spacer = document.createElement("span");
+      spacer.className = "team-spacer";
+
+      var totalEl = document.createElement("span");
+      totalEl.className = "team-total";
+
+      var pctEl = document.createElement("span");
+      pctEl.className = "team-pct";
+
+      head.appendChild(nameBtn);
+      head.appendChild(xBtn);
+      head.appendChild(spacer);
+      head.appendChild(totalEl);
+      head.appendChild(pctEl);
+      block.appendChild(head);
+
+      /* stacked bar: one segment per phase */
+
+      var bar = document.createElement("div");
+      bar.className = "bar";
+
+      var segs = state.phases.map(function (phase) {
+        var seg = document.createElement("i");
+        seg.style.background = phase.color;
+        bar.appendChild(seg);
+        return seg;
+      });
+      block.appendChild(bar);
+
+      /* legend: phase time + share of team total */
+
+      var legend = document.createElement("div");
+      legend.className = "legend";
+
+      var legendEls = state.phases.map(function (phase) {
+        var lg = document.createElement("span");
+        lg.className = "lg";
+
+        var dot = document.createElement("i");
+        dot.className = "dot";
+        dot.style.background = phase.color;
+
+        var nm = document.createElement("span");
+        nm.textContent = phase.name;
+
+        var tm = document.createElement("b");
+
+        var pc = document.createElement("span");
+        pc.className = "pct";
+
+        lg.appendChild(dot);
+        lg.appendChild(nm);
+        lg.appendChild(tm);
+        lg.appendChild(pc);
+        legend.appendChild(lg);
+
+        return { tm: tm, pc: pc };
+      });
+      block.appendChild(legend);
+
+      sumBody.appendChild(block);
+
+      /* live updater for this team block */
+
+      sumUpdaters.push(function () {
+        var G = grandTotalMs();
+        var T = teamTotalMs(team.id);
+
+        totalEl.textContent = format(T);
+        pctEl.textContent = G > 0 ? (T / G * 100).toFixed(1) + "%" : "—";
+
+        state.phases.forEach(function (phase, i) {
+          var t = watchMs(team.id, phase.id);
+          segs[i].style.width = (G > 0 ? (t / G) * 100 : 0) + "%";
+          segs[i].title = phase.name + ": " + format(t);
+          legendEls[i].tm.textContent = format(t);
+          legendEls[i].pc.textContent = T > 0 ? (t / T * 100).toFixed(0) + "%" : "0%";
+        });
+      });
+    });
+
+    if (state.teams.length >= 2) {
+      var d = document.createElement("div");
+      d.className = "team-diff-all";
+      sumBody.appendChild(d);
+
+      sumUpdaters.push(function () {
+        var vals = state.teams.map(function (t) {
+          return { name: t.name, ms: teamTotalMs(t.id) };
+        });
+        vals.sort(function (a, b) { return b.ms - a.ms; });
+
+        var best = vals[0];
+        var worst = vals[vals.length - 1];
+
+        if (best.ms === worst.ms) {
+          d.textContent = "All teams are equal";
+        } else {
+          d.textContent = best.name + " is ahead of " + worst.name + " by " + format(best.ms - worst.ms);
+        }
+      });
+    }
+
+    for (var i = 0; i < sumUpdaters.length; i++) sumUpdaters[i]();
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* animation loop                                                      */
   /* ------------------------------------------------------------------ */
 
   function anyRunning() {
@@ -649,14 +980,6 @@
   /* wiring                                                              */
   /* ------------------------------------------------------------------ */
 
-  addBtn.addEventListener("click", function () {
-    var w = newWatch();
-    save();
-    render();
-    var it = items.get(w.id);
-    if (it) it.card.scrollIntoView({ block: "nearest", behavior: "smooth" });
-  });
-
   window.addEventListener("beforeunload", save);
   document.addEventListener("visibilitychange", function () {
     if (document.hidden) save();
@@ -668,6 +991,7 @@
 
   load();
   render();
+  buildSummary();
   ensureLoop();
 })();
 </script>
